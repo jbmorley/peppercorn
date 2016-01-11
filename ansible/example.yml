@@ -1,0 +1,77 @@
+---
+- hosts: example
+  vars:
+
+    port: 80
+    domain: example.jbmorley.co.uk
+    admin: hello@jbmorley.co.uk
+
+    service:
+      name: "example"
+      author: "Jason Barrie Morley"
+      root: "/var/www/{{ domain }}"
+      file: "service.js"
+
+  tasks:
+
+    - name: install packages
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - apache2
+        - nodejs
+        - npm
+      become: yes
+
+    - name: create virtual host file
+      template: src=virtualhost.conf dest="/etc/apache2/sites-available/{{ domain }}.conf"
+      become: yes
+
+    - name: create site directory
+      file: path="/var/www/{{ domain }}" state=directory owner="{{ ansible_user_id }}" group="{{ ansible_user_id }}"
+      become: yes
+
+    - name: enable proxy_http
+      command: a2enmod proxy_http
+      args:
+        creates: "/etc/apache2/mods-enabled/proxy_http.load"
+      become: yes
+      notify:
+        - restart apache2
+
+    - name: enable authz_groupfile
+      command: a2enmod authz_groupfile
+      args:
+        creates: "/etc/apache2/mods-enabled/authz_groupfile.load"
+      become: yes
+      notify:
+        - restart apache2
+
+    - name: enable site
+      command: a2ensite "{{ domain }}"
+      args:
+        creates: "/etc/apache2/sites-enabled/{{ domain }}.conf"
+      become: yes
+      notify:
+        - restart apache2
+
+    - name: synchronize site
+      synchronize: src=../build/ dest="/var/www/{{ domain }}/" delete=yes
+      become: no
+      notify:
+        - restart node
+
+    - name: create Node.js service
+      template: src="nodejs-service.conf" dest="/etc/init/{{ service.name }}.conf"
+      become: yes
+      notify:
+        - restart node
+
+  handlers:
+
+    - name: restart apache2
+      service: name=apache2 state=restarted
+      become: yes
+
+    - name: restart node
+      service: name={{ service.name }} state=restarted
+      become: yes
