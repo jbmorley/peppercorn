@@ -1,8 +1,6 @@
-# Example Socket.IO Application
+# Peppercorn
 
-Simple example application demonstrating how Socket.IO can be used for real-time editing between multiple clients.
-
-Based loosely on the todo application in the [ReactJS documentation](http://facebook.github.io/react/#todoExample).
+React based web application for displaying interactive infographics.
 
 ## Development
 
@@ -29,7 +27,7 @@ See the [React documentation](http://facebook.github.io/react/docs/getting-start
 From the root directory of the project:
 
 ```bash
-scripts/example build
+scripts/peppercorn build
 ```
 
 ### Running
@@ -37,10 +35,10 @@ scripts/example build
 To run the project locally for testing, you can run the development server using the following command:
 
 ```bash
-scripts/example serve
+scripts/peppercorn serve
 ```
 
-This simply runs the `build/service.js` file under `nodemon`. Since this uses `nodemon`, the service will be loaded when the project is rebuilt using `scripts/example build`.
+This simply runs the `build/service.js` file under `nodemon`. Since this uses `nodemon`, the service will be loaded when the project is rebuilt using `scripts/peppercorn build`.
 
 #### Ansible
 
@@ -49,7 +47,7 @@ Deployment is performed using Ansible which can be configured in the `ansible` d
 From the root directory of the project:
 
 ```bash
-scripts/example deploy
+scripts/peppercorn deploy
 ```
 
 The application currently makes use of upstart to configure Node.js as a service on Ubuntu systems as described in [this article](http://kvz.io/blog/2009/12/15/run-nodejs-as-a-service-on-ubuntu-karmic/).
