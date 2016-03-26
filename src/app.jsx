@@ -110,7 +110,24 @@ class DistrictInfo extends React.Component {
                 title: { text: "" },
                 colors: ['#ff00ff', '#00ffff'],
                 xAxis: {
+                    labels: {
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                        }
+                    },
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    labels: {
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                        }
+                    },
+                    title: {
+                        text: ""
+                    },
                 },
                 series: [{
                     data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]
