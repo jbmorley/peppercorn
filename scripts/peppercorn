@@ -95,7 +95,7 @@ def add_trailing_slash(path):
 
 
 def babelify(source, target):
-    command(["browserify", source, "-t", "babelify", "-o", target])
+    command(["browserify", source, "-o", target])
 
 
 def build(options):

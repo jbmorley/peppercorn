@@ -16,9 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Router, Route, Link } from 'react-router'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router, Route, Link } from 'react-router';
+import { MapChoropleth } from 'react-d3-map-choropleth';
+
+var unemploy = require('./unemployment.tsv');
 
 class ExampleApplication extends React.Component {
 
