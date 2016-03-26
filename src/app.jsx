@@ -48,8 +48,36 @@ class ExampleApplication extends React.Component {
 
 }
 
+class DistrictList extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            districts: [
+                {identifier: 'district-a', name: 'District A'},
+                {identifier: 'district-b', name: 'District B'},
+                {identifier: 'district-c', name: 'District C'},
+            ],
+        };
+    }
+
+    render() {
+        return (
+            <ul>
+                {
+                    this.state.districts.map((district) => {
+                        console.log(district.identifier);
+                        return <li key={district.identifier}>{district.name}</li>
+                    })
+                }
+            </ul>
+        )
+    }
+
+}
+
 ReactDOM.render((
     <Router>
-        <Route path="/" component={ExampleApplication} />
+        <Route path="/" component={DistrictList} />
     </Router>
 ), document.getElementById('app'));
