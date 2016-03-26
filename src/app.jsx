@@ -20,8 +20,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link } from 'react-router';
 import { MapChoropleth } from 'react-d3-map-choropleth';
+import topojson from 'topojson';
 
-var unemploy = require('./unemployment.tsv');
+var width = 960;
+var height = 600;
+var topodata = require('./us.json');
+var unemployment = require('./unemployment.tsv');
+var dataStates = topojson.mesh(topodata, topodata.objects.states, function(a, b) { return a !== b; });
+var dataCounties = topojson.feature(topodata, topodata.objects.counties).features;
+var domain = {
+    scale: 'quantize',
+    domain: [0, .15],
+    range: d3.range(9).map(function(i) { return "q" + i + "-9"; })
+};
+var domainValue = function(d) { return +d.rate; };
+var domainKey = function(d) {return +d.id};
+var mapKey = function(d) {return +d.id};
+var scale = 1280;
+var translate = [width / 2, height / 2];
+var projection = 'albersUsa';
 
 class ExampleApplication extends React.Component {
 
@@ -63,6 +80,21 @@ class DistrictInfo extends React.Component {
             <div>
                 <Link to="/">Back</Link>
                 <h1>{this.props.params.district}</h1>
+                <MapChoropleth
+                    width={width}
+                    height={height}
+                    dataPolygon={dataCounties}
+                    dataMesh={dataStates}
+                    scale={scale}
+                    domain={domain}
+                    domainData={unemployment}
+                    domainValue={domainValue}
+                    domainKey={domainKey}
+                    mapKey ={mapKey}
+                    translate={translate}
+                    projection={projection}
+                    showGraticule={true}
+                />
             </div>
         )
     }
