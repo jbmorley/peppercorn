@@ -20,25 +20,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link } from 'react-router';
 import { MapChoropleth } from 'react-d3-map-choropleth';
-import topojson from 'topojson';
-
-var width = 960;
-var height = 600;
-var topodata = require('./us.json');
-var unemployment = require('./unemployment.tsv');
-var dataStates = topojson.mesh(topodata, topodata.objects.states, function(a, b) { return a !== b; });
-var dataCounties = topojson.feature(topodata, topodata.objects.counties).features;
-var domain = {
-    scale: 'quantize',
-    domain: [0, .15],
-    range: d3.range(9).map(function(i) { return "q" + i + "-9"; })
-};
-var domainValue = function(d) { return +d.rate; };
-var domainKey = function(d) {return +d.id};
-var mapKey = function(d) {return +d.id};
-var scale = 1280;
-var translate = [width / 2, height / 2];
-var projection = 'albersUsa';
 
 class ExampleApplication extends React.Component {
 
@@ -68,7 +49,7 @@ class ExampleApplication extends React.Component {
 
 }
 
-class DistrictInfo extends React.Component {
+class Counter extends React.Component {
 
     constructor(props) {
         super(props);
@@ -76,25 +57,54 @@ class DistrictInfo extends React.Component {
     }
 
     render() {
+        var self = this;
+        return (
+            <ul
+                style={{
+                    border: '2px solid red',
+                    borderRadius: '12px',
+                    margin: 0,
+                    padding: '10px',
+                    display: 'inline-block',
+                }}>
+                {(() => {
+                    console.log(this.props.count);
+                    var result = []
+                    for (var i=0; i<this.props.count; i++) {
+                        result.push((
+                            <li
+                                style={{
+                                    listStyle: 'none',
+                                    display: 'inline',
+                                }}>
+                                {this.props.character}
+                            </li>));
+                    }
+                    return result;
+                })()}
+            </ul>
+        )
+    }
+
+}
+
+class DistrictInfo extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            count: 4,
+        };
+    }
+
+    render() {
         return (
             <div>
                 <Link to="/">Back</Link>
                 <h1>{this.props.params.district}</h1>
-                <MapChoropleth
-                    width={width}
-                    height={height}
-                    dataPolygon={dataCounties}
-                    dataMesh={dataStates}
-                    scale={scale}
-                    domain={domain}
-                    domainData={unemployment}
-                    domainValue={domainValue}
-                    domainKey={domainKey}
-                    mapKey ={mapKey}
-                    translate={translate}
-                    projection={projection}
-                    showGraticule={true}
-                />
+                <Counter
+                    character="🐙"
+                    count={this.state.count} />
             </div>
         )
     }
@@ -116,15 +126,18 @@ class DistrictList extends React.Component {
 
     render() {
         return (
-            <ul>
-                {
-                    this.state.districts.map((district) => {
-                        console.log(district.identifier);
-                        var path = "/" + district.identifier;
-                        return <li key={district.identifier}><Link to={path}>{district.name}</Link></li>
-                    })
-                }
-            </ul>
+            <div>
+                <h1>District List</h1>
+                <ul>
+                    {
+                        this.state.districts.map((district) => {
+                            console.log(district.identifier);
+                            var path = "/" + district.identifier;
+                            return <li key={district.identifier}><Link to={path}>{district.name}</Link></li>
+                        })
+                    }
+                </ul>
+            </div>
         )
     }
 
