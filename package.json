@@ -23,6 +23,7 @@
     "react-d3-components": "^0.6.2",
     "react-d3-map-choropleth": "^0.5.1",
     "react-dom": "^0.14.1",
+    "react-highcharts": "^8.0.3",
     "react-router": "^1.0.3",
     "react-tap-event-plugin": "^0.2.1",
     "reactify": "^1.1.1",

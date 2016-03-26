@@ -20,7 +20,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link } from 'react-router';
 import MapChoropleth from 'react-d3-map-choropleth';
-import { LineChart, RadarChart } from 'react-d3-components';
+import ReactHighcharts from 'react-highcharts';
+
 
 class ExampleApplication extends React.Component {
 
@@ -90,6 +91,7 @@ class Counter extends React.Component {
 
 }
 
+
 class DistrictInfo extends React.Component {
 
     constructor(props) {
@@ -97,50 +99,150 @@ class DistrictInfo extends React.Component {
         this.state = {
             count: 4,
             name: "District",
+            data: {
+                chart: {
+                    backgroundColor: '#ccc',
+                    style: {
+                        fontFamily: 'Roboto',
+                    },
+                },
+                plotOptions: { line: { lineWidth: 3 } },
+                title: { text: "" },
+                colors: ['#ff00ff', '#00ffff'],
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                series: [{
+                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]
+                },
+                {
+                data: [2.9, 7.5, 10.4, 12.2, 14.0, 17.0, 13.6, 14.5, 21.4, 19.1, 29.6, 45.4]
+            }]
+            },
         };
     }
 
     render() {
+        const iconStyle = {
+            fontSize: '100px',
+            color: '#444',
+        };
         return (
             <div>
-                <Link to="/">Back</Link>
                 <h1>{this.state.name}</h1>
-                <Counter
-                    character="🐙"
-                    count={this.state.count} />
-                <LineChart
-                    width={100}
-                    height={100}
-                    chartData={{
-                        labels: ["January", "February", "March", "April", "May", "June", "July"],
-                        datasets: [
-                            {
-                                label: "My First dataset",
-                                fillColor: "rgba(220,220,220,0.2)",
-                                strokeColor: "rgba(220,220,220,1)",
-                                pointColor: "rgba(220,220,220,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: [65, 59, 80, 81, 56, 55, 40]
-                            },
-                            {
-                                label: "My Second dataset",
-                                fillColor: "rgba(151,187,205,0.2)",
-                                strokeColor: "rgba(151,187,205,1)",
-                                pointColor: "rgba(151,187,205,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(151,187,205,1)",
-                                data: [28, 48, 40, 19, 86, 27, 90]
-                            }
-                        ]
-                    }} />
+                <Link to="/">Back</Link>
+                <InfoText>
+                    This is an example of some informative bubble explaining what's going on.
+                </InfoText>
+                <i
+                    className="material-icons"
+                    style={iconStyle}>
+                    face
+                </i>
+                <i
+                    className="material-icons"
+                    style={iconStyle}>
+                    favorite
+                </i>
+                <i
+                    className="material-icons"
+                    style={iconStyle}>
+                    home
+                </i>
+                <SummaryStatistic
+                    value="87"
+                    unit="%"
+                    description="Something interesting happened here."
+                    color="#fff"
+                    backgroundColor="#f0f" />
+                <SummaryStatistic
+                    value="100"
+                    unit="kJ"
+                    description="Energy used."
+                    color="#fff"
+                    backgroundColor="#0ff" />
+                <SummaryStatistic
+                    value="100"
+                    unit="kJ"
+                    description="Energy used."
+                    color="#444"
+                    backgroundColor="#ff0" />
+                <ReactHighcharts
+                    config={this.state.data} />
+
             </div>
         )
     }
 
 }
+
+class InfoText extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div
+                style={{
+                    borderRadius: '12px',
+                    backgroundColor: '#444',
+                    padding: '10px',
+                    margin: '10px',
+                    color: '#fff',
+                }}>
+                {this.props.children}
+            </div>
+        );
+    }
+
+}
+
+class SummaryStatistic extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div
+                style={{
+                    borderRadius: '30px 0',
+                    backgroundColor: this.props.backgroundColor,
+                    padding: '20px',
+                    margin: '10px',
+                    color: this.props.color,
+                    display: 'inline-block',
+                }}>
+                <div
+                    style={{
+                        fontWeight: 'bold',
+                        fontSize: '80px',
+                        display: 'inline-block',
+                    }}>
+                    {this.props.value}
+                </div>
+                <div
+                    style={{
+                        fontWeight: 'bold',
+                        display: 'inline-block',
+                    }}>
+                    {this.props.unit}
+                </div>
+                <div
+                    style={{
+                        fontSize: '10px',
+                    }}>
+                    {this.props.description}
+                </div>
+            </div>
+        );
+    }
+
+}
+
 
 class DistrictList extends React.Component {
 
