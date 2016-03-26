@@ -48,6 +48,24 @@ class ExampleApplication extends React.Component {
 
 }
 
+class DistrictInfo extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render() {
+        return (
+            <div>
+                <Link to="/">Back</Link>
+                <h1>{this.props.params.district}</h1>
+            </div>
+        )
+    }
+
+}
+
 class DistrictList extends React.Component {
 
     constructor(props) {
@@ -67,7 +85,8 @@ class DistrictList extends React.Component {
                 {
                     this.state.districts.map((district) => {
                         console.log(district.identifier);
-                        return <li key={district.identifier}>{district.name}</li>
+                        var path = "/" + district.identifier;
+                        return <li key={district.identifier}><Link to={path}>{district.name}</Link></li>
                     })
                 }
             </ul>
@@ -76,8 +95,10 @@ class DistrictList extends React.Component {
 
 }
 
+
 ReactDOM.render((
     <Router>
         <Route path="/" component={DistrictList} />
+        <Route path="/:district" component={DistrictInfo} />
     </Router>
 ), document.getElementById('app'));
