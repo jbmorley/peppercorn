@@ -19,7 +19,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link } from 'react-router';
-import { MapChoropleth } from 'react-d3-map-choropleth';
+import MapChoropleth from 'react-d3-map-choropleth';
+import { LineChart, RadarChart } from 'react-d3-components';
 
 class ExampleApplication extends React.Component {
 
@@ -73,6 +74,7 @@ class Counter extends React.Component {
                     for (var i=0; i<this.props.count; i++) {
                         result.push((
                             <li
+                                key={i}
                                 style={{
                                     listStyle: 'none',
                                     display: 'inline',
@@ -94,6 +96,7 @@ class DistrictInfo extends React.Component {
         super(props);
         this.state = {
             count: 4,
+            name: "District",
         };
     }
 
@@ -101,10 +104,38 @@ class DistrictInfo extends React.Component {
         return (
             <div>
                 <Link to="/">Back</Link>
-                <h1>{this.props.params.district}</h1>
+                <h1>{this.state.name}</h1>
                 <Counter
                     character="🐙"
                     count={this.state.count} />
+                <LineChart
+                    width={100}
+                    height={100}
+                    chartData={{
+                        labels: ["January", "February", "March", "April", "May", "June", "July"],
+                        datasets: [
+                            {
+                                label: "My First dataset",
+                                fillColor: "rgba(220,220,220,0.2)",
+                                strokeColor: "rgba(220,220,220,1)",
+                                pointColor: "rgba(220,220,220,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: [65, 59, 80, 81, 56, 55, 40]
+                            },
+                            {
+                                label: "My Second dataset",
+                                fillColor: "rgba(151,187,205,0.2)",
+                                strokeColor: "rgba(151,187,205,1)",
+                                pointColor: "rgba(151,187,205,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(151,187,205,1)",
+                                data: [28, 48, 40, 19, 86, 27, 90]
+                            }
+                        ]
+                    }} />
             </div>
         )
     }
