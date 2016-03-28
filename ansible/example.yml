@@ -3,14 +3,14 @@
   vars:
 
     port: 80
-    domain: example.jbmorley.co.uk
+    domain: peppercorn.jbmorley.co.uk
     admin: hello@jbmorley.co.uk
-
     service:
-      name: "example"
+      name: "peppercorn"
       author: "Jason Barrie Morley"
       root: "/var/www/{{ domain }}"
       file: "service.js"
+      port: 3010
 
   tasks:
 
@@ -34,14 +34,6 @@
       command: a2enmod proxy_http
       args:
         creates: "/etc/apache2/mods-enabled/proxy_http.load"
-      become: yes
-      notify:
-        - restart apache2
-
-    - name: enable authz_groupfile
-      command: a2enmod authz_groupfile
-      args:
-        creates: "/etc/apache2/mods-enabled/authz_groupfile.load"
       become: yes
       notify:
         - restart apache2
