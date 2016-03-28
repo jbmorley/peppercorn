@@ -101,7 +101,7 @@ class DistrictInfo extends React.Component {
             name: "District",
             data: {
                 chart: {
-                    backgroundColor: '#ccc',
+                    backgroundColor: '#eee',
                     style: {
                         fontFamily: 'Roboto',
                     },
