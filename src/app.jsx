@@ -240,7 +240,7 @@ class DistrictInfo extends React.Component {
         };
         return (
             <div>
-                <h1>{this.state.name}</h1>
+                <h1>{this.state.details.name}</h1>
                 <Link to="/">Back</Link>
                 <InfoText>
                     This is an example of some informative bubble explaining what's going on.
