@@ -92,15 +92,56 @@ class Counter extends React.Component {
 }
 
 
-class DistrictInfo extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            count: 4,
-            name: "District",
-            data: {
-                chart: {
+var details = {
+    district_a: {
+        name: 'District A',
+        percentage: 53,
+        energy: 100,
+        energy2: 106,
+        data: {
+            chart: {
+                    backgroundColor: '#eee',
+                    style: {
+                        fontFamily: 'Roboto',
+                    },
+                },
+                plotOptions: { line: { lineWidth: 3 } },
+                title: { text: "" },
+                colors: ['#ff00ff', '#00ffff'],
+                xAxis: {
+                    labels: {
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                        }
+                    },
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    labels: {
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                        }
+                    },
+                    title: {
+                        text: ""
+                    },
+                },
+                series: [                {
+                data: [2.9, 7.5, 10.4, 12.2, 14.0, 17.0, 13.6, 14.5, 21.4, 19.1, 29.6, 45.4]
+            },{
+                    data: [29.9, 71.5, 194.1, 295.6, 454.4, 176.0, 135.6, 148.5, 216.4, 106.4, 129.2, 144.0]
+                },]
+        },
+    },
+    district_b: {
+        name: 'District B',
+        percentage: 99,
+        energy: 237,
+        energy2: 0,
+        data: {
+            chart: {
                     backgroundColor: '#eee',
                     style: {
                         fontFamily: 'Roboto',
@@ -135,7 +176,60 @@ class DistrictInfo extends React.Component {
                 {
                 data: [2.9, 7.5, 10.4, 12.2, 14.0, 17.0, 13.6, 14.5, 21.4, 19.1, 29.6, 45.4]
             }]
-            },
+        }
+    },
+    district_c: {
+        name: 'District C',
+        percentage: 53,
+        energy: 100,
+        energy2: 106,
+        data: {
+            chart: {
+                    backgroundColor: '#eee',
+                    style: {
+                        fontFamily: 'Roboto',
+                    },
+                },
+                plotOptions: { line: { lineWidth: 3 } },
+                title: { text: "" },
+                colors: ['#ff00ff', '#00ffff'],
+                xAxis: {
+                    labels: {
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                        }
+                    },
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    labels: {
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                        }
+                    },
+                    title: {
+                        text: ""
+                    },
+                },
+                series: [{
+                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]
+                },
+                {
+                data: [2.9, 7.5, 10.4, 12.2, 14.0, 17.0, 13.6, 14.5, 21.4, 19.1, 29.6, 45.4]
+            }]
+        }
+    },
+}
+
+
+class DistrictInfo extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            details: details[props.params.district],
         };
     }
 
@@ -167,25 +261,25 @@ class DistrictInfo extends React.Component {
                     home
                 </i>
                 <SummaryStatistic
-                    value="87"
+                    value={this.state.details.percentage}
                     unit="%"
                     description="Something interesting happened here."
                     color="#fff"
                     backgroundColor="#f0f" />
                 <SummaryStatistic
-                    value="100"
+                    value={this.state.details.energy}
                     unit="kJ"
                     description="Energy used."
                     color="#fff"
                     backgroundColor="#0ff" />
                 <SummaryStatistic
-                    value="100"
+                    value={this.state.details.energy2}
                     unit="kJ"
                     description="Energy used."
                     color="#444"
                     backgroundColor="#ff0" />
                 <ReactHighcharts
-                    config={this.state.data} />
+                    config={this.state.details.data} />
 
             </div>
         )
@@ -267,9 +361,9 @@ class DistrictList extends React.Component {
         super(props);
         this.state = {
             districts: [
-                {identifier: 'district-a', name: 'District A'},
-                {identifier: 'district-b', name: 'District B'},
-                {identifier: 'district-c', name: 'District C'},
+                {identifier: 'district_a', name: 'District A'},
+                {identifier: 'district_b', name: 'District B'},
+                {identifier: 'district_c', name: 'District C'},
             ],
         };
     }
@@ -277,7 +371,8 @@ class DistrictList extends React.Component {
     render() {
         return (
             <div>
-                <h1>District List</h1>
+                <h1>Demo</h1>
+                <InfoText>Select a region to explore.</InfoText>
                 <ul>
                     {
                         this.state.districts.map((district) => {
